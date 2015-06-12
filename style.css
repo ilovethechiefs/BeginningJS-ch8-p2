@@ -11,3 +11,7 @@ table {
 th, td{
   text-align: center;
 }
+
+#cart {
+  border-spacing: 30px 10px;
+}

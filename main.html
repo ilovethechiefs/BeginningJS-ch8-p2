@@ -37,15 +37,29 @@
         shoppingCartList = "";
 
         if (shoppingCartArray[0] > 0) {
-          shoppingCartList += "Professional Ajax, 2nd Edition<input type='text' name='ajaxQuantity' size=3 value=" + shoppingCartArray[0] + "></br>";
+          shoppingCartList += "<table><tr><td>Professional Ajax, 2nd Edition</td><td><input type='text' name='ajaxQuantity' size=3 value=" + shoppingCartArray[0] + "></td></tr>";
+        }
+        else {
+          shoppingCartList += "<table>";
         }
         if (shoppingCartArray[1] > 0) {
-          shoppingCartList += "Professional JavaScript, 2nd Edition<input type='text' name='javaQuantity' size=3 value=" + shoppingCartArray[1] + "></br>";
+          shoppingCartList += "<tr><td>Professional JavaScript, 2nd Edition</td><td><input type='text' name='javaQuantity' size=3 value=" + shoppingCartArray[1] + "></td></tr>";
+        }
+        else {
+          shoppingCartList += "</table></br>";
         }
 
         if (shoppingCartArray[0] == 0 && shoppingCartArray[1] == 0) {
           shoppingCartList = "Your shopping cart is empty.";
         }
+
+        if (shoppingCartArray[0] > 0 || shoppingCartArray[1] > 0) {
+          shoppingCartList += '<table><tr><td><button type="button" onclick="window.opener.quantityChange()">Change Quantity</button></td>';
+        }
+        else {
+          shoppingCartList += '<table><tr>';
+        }
+        shoppingCartList += '<td><button type="button" onclick="window.close()">Continue Shopping</button></td></tr></table>';
       }
 
       function showDetails(bookURL)
@@ -61,10 +75,6 @@
         shoppingCartWindow.onload = function() {
           shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
         }
-        if (shoppingCartArray[0] > 0 || shoppingCartArray[1] > 0) {
-          shoppingCartList += '</br></br><button type="button" onclick="window.opener.quantityChange()">Change Quantity</button>';
-        }
-        shoppingCartList += '</br></br><button type="button" onclick="window.close()">Continue Shopping</button>';
         shoppingCartWindow.focus();
       }
 
