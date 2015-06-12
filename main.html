@@ -8,6 +8,36 @@
   <script type="text/javascript">
     var detailsWindow;
     var shoppingCartList = "";
+    var shoppingCartArray = [0,0];
+
+    function shoppingCartFunction(bookIndex) {
+      switch(bookIndex) {
+        case 0:
+          shoppingCartArray[0] += 1;
+          break;
+        case 1:
+          shoppingCartArray[1] += 1;
+          break;
+        case 2:
+          shoppingCartArray[0] -= 1;
+          break;
+        case 3:
+          shoppingCartArray[1] -= 1;
+          break;
+        default:
+          alert("shoppingCartFunction switch statement failed.");
+      }
+
+      shoppingCartList = "";
+
+      if (shoppingCartArray[0] > 0) {
+        shoppingCartList += "Professional Ajax, 2nd Edition - " + shoppingCartArray[0] + " copies";
+      }
+      if (shoppingCartArray[1] > 0) {
+        shoppingCartList += "Professional JavaScript, 2nd Edition - " + shoppingCartArray[1] + " copies";
+      }
+
+    }
 
     function showDetails(bookURL)
     {
@@ -15,11 +45,11 @@
       detailsWindow.focus();
     }
 
-    function javascriptAddToCart()
+    function ajaxAddToCart()
     {
-      shoppingCartList += "Professional JavaScript, 2nd Edition</br>";
+      shoppingCartFunction(0);
       var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
-      "width=400,height=550");
+      "width=550,height=550");
       shoppingCartWindow.onload = function() {
         shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
       }
@@ -28,11 +58,11 @@
       shoppingCartWindow.focus();
     }
 
-    function ajaxAddToCart()
+    function javascriptAddToCart()
     {
-      shoppingCartList += "Professional Ajax, 2nd Edition</br>";
+      shoppingCartFunction(1);
       var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
-      "width=400,height=550");
+      "width=550,height=550");
       shoppingCartWindow.onload = function() {
         shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
       }
@@ -44,7 +74,7 @@
     function viewShoppingCart()
     {
       var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
-      "width=400,height=550");
+      "width=550,height=550");
       shoppingCartWindow.onload = function() {
         shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
       }
