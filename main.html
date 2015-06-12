@@ -3,29 +3,60 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title>Chapter 8: Example 4</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript" src="/home/ilovethechiefs/Desktop/js/frameworks/jquery-1.11.3.js"></script>
   <script type="text/javascript">
     var detailsWindow;
+    var shoppingCartList = "";
+
     function showDetails(bookURL)
     {
-      detailsWindow = window.open(bookURL, "bookDetails",
-        "width=400,height=550");
+      detailsWindow = window.open(bookURL, "bookDetails", "width=400", "height=550");
       detailsWindow.focus();
     }
 
     function javascriptAddToCart()
     {
-      alert("JS added");
+      shoppingCartList += "Professional JavaScript, 2nd Edition</br>";
+      var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
+      "width=400,height=550");
+      shoppingCartWindow.onload = function() {
+        shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
+      }
+
+      detailsWindow.close();
+      shoppingCartWindow.focus();
     }
 
     function ajaxAddToCart()
     {
-      alert("Ajax added");
+      shoppingCartList += "Professional Ajax, 2nd Edition</br>";
+      var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
+      "width=400,height=550");
+      shoppingCartWindow.onload = function() {
+        shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
+      }
+
+      detailsWindow.close();
+      shoppingCartWindow.focus();
     }
 
+    function viewShoppingCart()
+    {
+      var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
+      "width=400,height=550");
+      shoppingCartWindow.onload = function() {
+        shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
+      }
+      shoppingCartWindow.focus();
+    }
   </script>
 </head>
 
 <body>
+  <div id="upperRight">
+    <button type="button" onclick="viewShoppingCart()">View Shopping Cart</button>
+  </div>
   <h2>Online Book Buyer</h2>
   <p>
     Click any of the images below for more details
