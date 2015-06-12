@@ -1,105 +1,132 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <title>Chapter 8: Example 4</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script type="text/javascript" src="/home/ilovethechiefs/Desktop/js/frameworks/jquery-1.11.3.js"></script>
-  <script type="text/javascript">
-    var detailsWindow;
-    var shoppingCartList = "";
-    var shoppingCartArray = [0,0];
+  <head>
+    <title>Chapter 8: Example 4</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="/home/ilovethechiefs/Desktop/js/frameworks/jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+      var detailsWindow;
+      var shoppingCartList = "Your shopping cart is empty.";
+      var shoppingCartArray = [0,0];
+      var shoppingCartWindow;
+      var bookArray = ["Professional Ajax, 2nd Edition", "Professional JavaScript, 2nd Edition"];
 
-    function shoppingCartFunction(bookIndex) {
-      switch(bookIndex) {
-        case 0:
-          shoppingCartArray[0] += 1;
-          break;
-        case 1:
-          shoppingCartArray[1] += 1;
-          break;
-        case 2:
-          shoppingCartArray[0] -= 1;
-          break;
-        case 3:
-          shoppingCartArray[1] -= 1;
-          break;
-        default:
-          alert("shoppingCartFunction switch statement failed.");
+      function shoppingCartFunction(bookIndex) {
+        switch(bookIndex) {
+          case 0:
+            shoppingCartArray[0] += 1;
+            break;
+          case 1:
+            shoppingCartArray[1] += 1;
+            break;
+          case 2:
+            shoppingCartArray[0] -= 1;
+            break;
+          case 3:
+            shoppingCartArray[1] -= 1;
+            break;
+          default:
+            alert("shoppingCartFunction switch statement failed.");
+        }
+
+        updateShoppingCartList();
       }
 
-      shoppingCartList = "";
+      function updateShoppingCartList() {
+        shoppingCartList = "";
 
-      if (shoppingCartArray[0] > 0) {
-        shoppingCartList += "Professional Ajax, 2nd Edition - " + shoppingCartArray[0] + " copies";
-      }
-      if (shoppingCartArray[1] > 0) {
-        shoppingCartList += "Professional JavaScript, 2nd Edition - " + shoppingCartArray[1] + " copies";
-      }
+        if (shoppingCartArray[0] > 0) {
+          shoppingCartList += "Professional Ajax, 2nd Edition<input type='text' name='ajaxQuantity' size=3 value=" + shoppingCartArray[0] + "></br>";
+        }
+        if (shoppingCartArray[1] > 0) {
+          shoppingCartList += "Professional JavaScript, 2nd Edition<input type='text' name='javaQuantity' size=3 value=" + shoppingCartArray[1] + "></br>";
+        }
 
-    }
-
-    function showDetails(bookURL)
-    {
-      detailsWindow = window.open(bookURL, "bookDetails", "width=400", "height=550");
-      detailsWindow.focus();
-    }
-
-    function ajaxAddToCart()
-    {
-      shoppingCartFunction(0);
-      var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
-      "width=550,height=550");
-      shoppingCartWindow.onload = function() {
-        shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
+        if (shoppingCartArray[0] == 0 && shoppingCartArray[1] == 0) {
+          shoppingCartList = "Your shopping cart is empty.";
+        }
       }
 
-      detailsWindow.close();
-      shoppingCartWindow.focus();
-    }
-
-    function javascriptAddToCart()
-    {
-      shoppingCartFunction(1);
-      var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
-      "width=550,height=550");
-      shoppingCartWindow.onload = function() {
-        shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
+      function showDetails(bookURL)
+      {
+        detailsWindow = window.open(bookURL, "bookDetails", "width=400", "height=550");
+        detailsWindow.focus();
       }
 
-      detailsWindow.close();
-      shoppingCartWindow.focus();
-    }
-
-    function viewShoppingCart()
-    {
-      var shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
-      "width=550,height=550");
-      shoppingCartWindow.onload = function() {
-        shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
+      function showShoppingCart() {
+        updateShoppingCartList();
+        shoppingCartWindow = window.open('shoppingCart.htm', "shoppingCart",
+        "width=550,height=550");
+        shoppingCartWindow.onload = function() {
+          shoppingCartWindow.document.getElementById("shoppingCartDetails").innerHTML = shoppingCartList;
+        }
+        if (shoppingCartArray[0] > 0 || shoppingCartArray[1] > 0) {
+          shoppingCartList += '</br></br><button type="button" onclick="window.opener.quantityChange()">Change Quantity</button>';
+        }
+        shoppingCartList += '</br></br><button type="button" onclick="window.close()">Continue Shopping</button>';
+        shoppingCartWindow.focus();
       }
-      shoppingCartWindow.focus();
-    }
-  </script>
-</head>
 
-<body>
-  <div id="upperRight">
-    <button type="button" onclick="viewShoppingCart()">View Shopping Cart</button>
-  </div>
-  <h2>Online Book Buyer</h2>
-  <p>
-    Click any of the images below for more details
-  </p>
-  <h4>Professional Ajax</h4>
-  <p>
-    <img src="pro_ajax.jpg" alt="Professional Ajax, 2nd Edition" border="0"
-      onclick="showDetails('pro_ajax_details.htm')" />
-  </p>
-  <h4>Professional JavaScript for Web Developers</h4>
-  <p>
-    <img src="pro_js.jpg" alt="Professional JavaScript, 2nd Edition"
-    border="0" onclick="showDetails('pro_js_details.htm')" />
-  </p>
+      function ajaxAddToCart()
+      {
+        shoppingCartFunction(0);
+        showShoppingCart();
+        detailsWindow.close();
+        shoppingCartWindow.focus();
+      }
+
+      function javascriptAddToCart()
+      {
+        shoppingCartFunction(1);
+        showShoppingCart();
+        detailsWindow.close();
+        shoppingCartWindow.focus();
+      }
+
+      function quantityChange(bookIndex) {
+        shoppingCartWindow.close();
+        shoppingCartList = "";
+        if (shoppingCartArray[0] > 0) {
+          shoppingCartArray[0] = prompt("How many copies of Professional Ajax, 2nd Edition would you like?");
+        }
+        if (shoppingCartArray[1] > 0) {
+          shoppingCartArray[1] = prompt("How many copies of Professional JavaScript, 2nd Edition would you like?");
+        }
+
+        showShoppingCart();
+      }
+
+    </script>
+  </head>
+
+  <body>
+    <div id="upperRight">
+      <button type="button" onclick="showShoppingCart()">View Shopping Cart</button>
+    </div>
+    <h2>Online Book Buyer</h2>
+    <p>
+      Click any of the images below for more details
+    </p>
+    <table>
+      <tr>
+        <th>Professional Ajax</th>
+        <th>Professional JavaScript for Web Developers</th>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <img src="pro_ajax.jpg" alt="Professional Ajax, 2nd Edition" border="0"
+            onclick="showDetails('pro_ajax_details.htm')" />
+          </p>
+        </td>
+        <td>
+          <p>
+            <img src="pro_js.jpg" alt="Professional JavaScript, 2nd Edition"
+            border="0" onclick="showDetails('pro_js_details.htm')" />
+          </p>
+        </td>
+      </tr>
+    <table>
   </body>
 </html>

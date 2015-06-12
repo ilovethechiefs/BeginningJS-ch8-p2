@@ -3,3 +3,11 @@
   top: 50px;
   right: 50px;
 }
+
+table {
+  border-spacing: 80px 20px;
+}
+
+th, td{
+  text-align: center;
+}
